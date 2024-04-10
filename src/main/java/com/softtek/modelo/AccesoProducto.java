@@ -61,5 +61,7 @@ public class AccesoProducto extends Conexion {
 
     }
 
+    //falta un obtener uno
+
 
 }
