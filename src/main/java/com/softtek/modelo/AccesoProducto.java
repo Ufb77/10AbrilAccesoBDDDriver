@@ -30,11 +30,11 @@ public class AccesoProducto extends Conexion {
     }
 
 
-    public void crear() throws SQLException, ClassNotFoundException {
+    //insertamos un producto
+    public void crear(Producto p1) throws SQLException, ClassNotFoundException {
         abrirConexion();
         Statement sentencia;
 
-        Producto p1 = new Producto(78, "Softtek Cafe", 1, 40);
         String sql = "INSERT INTO products(product_id, product_name, unit_price, units_in_stock, discontinued) VALUES (" + p1.getIdProducto() + ", '" + p1.getNombreProducto() + "',"
         +p1.getPrecioUnitario() + "," + p1.getUnidadesStock() + ",0)";
         sentencia = miConexion.createStatement();
@@ -42,26 +42,50 @@ public class AccesoProducto extends Conexion {
         miConexion.close();
     }
 
-    public void delete() throws SQLException, ClassNotFoundException {
+    //eliminar por id
+    public void delete(int id) throws SQLException, ClassNotFoundException {
         abrirConexion();
         Statement sentencia;
 
-        String sql = "DELETE FROM products where product_name = 'Softtek Cafe'";
+        String sql = "DELETE FROM products WHERE product_id = " + id;
         sentencia = miConexion.createStatement();
         sentencia.executeUpdate(sql);
         miConexion.close();
     }
 
-    public void update() throws SQLException, ClassNotFoundException {
+    //modificar el objeto producto. Pasar datos por parametro
+    public void update(int idProducto, String nuevoNombre) throws SQLException, ClassNotFoundException {
         abrirConexion();
         Statement sentencia;
-        String sql = "UPDATE products SET product_name = 'Cafe etiopia' where product_name ='Softtek Cafe'";
+        String sql = "UPDATE products SET product_name = '" + nuevoNombre +"' WHERE product_id =" + idProducto;
         sentencia = miConexion.createStatement();
         sentencia.executeUpdate(sql);
+        miConexion.close();
 
     }
 
-    //falta un obtener uno
+    public Producto obtenerUnoPorId(int id) throws SQLException, ClassNotFoundException {
+        Statement sentencia;
+        Producto producto = null;
+        String sql = "SELECT product_id, product_name, unit_price, units_in_stock FROM products WHERE product_id = " + id;
+        ResultSet resultado;
+        abrirConexion();
+        sentencia = miConexion.createStatement();
+        resultado = sentencia.executeQuery(sql);
+        if(resultado.next()){
+            producto = new Producto(resultado.getInt("product_id"),
+                    resultado.getString("product_name"),
+                    resultado.getDouble("unit_price"),
+                    resultado.getInt("units_in_stock"));
+
+
+        }
+
+        miConexion.close();
+        return producto;
+    }
+
+
 
 
 }

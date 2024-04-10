@@ -14,9 +14,10 @@ public class prueba {
 
         try {
 
-            a1.obtenerTodos();
 
-            a1.update();
+
+            a1.delete(78);
+
 
 
             for (Producto productos: a1.obtenerTodos()
