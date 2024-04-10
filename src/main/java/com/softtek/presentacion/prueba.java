@@ -16,6 +16,9 @@ public class prueba {
 
             a1.obtenerTodos();
 
+            a1.update();
+
+
             for (Producto productos: a1.obtenerTodos()
                  ) {
                 System.out.println(productos);
